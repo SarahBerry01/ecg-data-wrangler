@@ -47,7 +47,7 @@ def get_signal(signal_id: int, start: int = 0, end: int = None) -> list[float]:
     return signal
 
 
-def get_annotations(signal_id: int, start: int = 0, end: int = None) -> wfdb.Annotation:
+def get_annotations(signal_id: int, start: int = 0, end: int = None):
     """ gets annotation of a singular signal with a given range
 
     Args:
@@ -56,7 +56,7 @@ def get_annotations(signal_id: int, start: int = 0, end: int = None) -> wfdb.Ann
         end (int, optional): end value. Defaults to None.
 
     Returns:
-        list[float]: signal for the signal
+        Annotation
     """
     signal_path = os.path.join(
         'mit-bih-arrhythmia-database-1.0.0',
@@ -73,7 +73,7 @@ def get_all_signals(start: int = 0, end: int = None) -> list[list[float]]:
     return signals
 
 
-def get_all_annotations(start: int = 0, end: int = None) -> list[wfdb.Annotation]:
+def get_all_annotations(start: int = 0, end: int = None):
     signal_ids = get_all_signal_ids()
     signals = [get_annotations(
         signal_id=signal_id, start=start, end=end) for signal_id in signal_ids]
