@@ -3,7 +3,8 @@ import numpy as np
 
 def get_squared_double_difference(signal: list[float]) -> list[float]:
     """ calculate squared double difference
-    as describe in https://www.sciencedirect.com/science/article/pii/S2212017312004227?via%3Dihub
+    as describe in
+    https://www.sciencedirect.com/science/article/pii/S2212017312004227?via%3Dihub
     """
 
     def _dl(signal, i):
