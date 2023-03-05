@@ -1,8 +1,9 @@
 import sys
 import matplotlib.pyplot as plt
-from utils import get_signal, get_annotations, get_all_signal_ids
+from utils import get_signal, get_annotations
 from filters import apply_low_pass, apply_high_pass, apply_filters
-from segment import get_squared_double_difference, get_peaks, get_peak_annotation, segment_signal_workflow
+from segment import get_squared_double_difference, get_peaks
+from segment import get_peak_annotation, segment_signal_workflow
 
 
 def test_filtering():
@@ -67,6 +68,7 @@ def test_segment_signal():
             plt.title(anno)
             plt.show()
 
+
 def test_filtering_effect_on_segmenting():
     beat_anno = ['N', 'L', 'R', 'B', 'A', 'a', 'J', 'S', 'V',
                  'r', 'F', 'e', 'j', 'n', 'E', '/', 'f', 'Q', '?']
@@ -81,7 +83,6 @@ def test_filtering_effect_on_segmenting():
     print(f"{expected_segments=}")
     print(f"{len(filtered_segments)=}")
     print(f"{len(unfiltered_segments)=}")
-
 
 
 if __name__ == '__main__':
