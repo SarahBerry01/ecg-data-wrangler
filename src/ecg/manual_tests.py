@@ -1,8 +1,8 @@
 import sys
 import matplotlib.pyplot as plt
-from utils import get_signal
+from utils import get_signal, get_annotations
 from filters import apply_low_pass, apply_high_pass
-from segment import get_squared_double_difference, get_peaks
+from segment import get_squared_double_difference, get_peaks, get_peak_annotation, segment_signal_workflow
 
 
 def test_filtering():
@@ -39,6 +39,31 @@ def test_peak_finding():
     for peak in peaks:
         plt.axvline(peak, color="r", linestyle="dotted", alpha=0.5)
     plt.show()
+
+
+def test_get_peak_annotation():
+    signal = get_signal(100, 0, 5000)
+    annotations = get_annotations(100, 0, 5000)
+    sdd = get_squared_double_difference(signal)
+    peaks = get_peaks(sdd)
+    peaks, annotations = get_peak_annotation(peaks, annotations)
+    plt.plot(signal)
+    y = max(signal)
+    for peak, annotation in zip(peaks, annotations):
+        print(peak)
+        plt.annotate(annotation, (peak, y))
+    plt.show()
+
+
+def test_segment_signal():
+    signal = get_signal(102)
+    annotations = get_annotations(102)
+    segments, annotations = segment_signal_workflow(signal, annotations)
+    for seg, anno in zip(segments, annotations):
+        if anno != 'N':
+            plt.plot(seg)
+            plt.title(anno)
+            plt.show()
 
 
 if __name__ == '__main__':
