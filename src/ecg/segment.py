@@ -23,7 +23,7 @@ def get_peaks(difference_ar: list[float]) -> list[int]:
     """
     Get peak indecies and values from a calculated difference array
     """
-    threshold = np.percentile(difference_ar, 97)
+    threshold = np.percentile(difference_ar, 95)
     peak_indices = [i for i, v in enumerate(difference_ar) if v > threshold]
 
     def _filter_peaks(peaks: list[int]) -> list[int]:
