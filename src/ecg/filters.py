@@ -24,3 +24,7 @@ def apply_high_pass(sig):
     b, a = butter(cutoff, fs, order, "highpass")
     y = scipy.signal.filtfilt(b, a, sig)
     return y
+
+
+def apply_filters(sig):
+    return apply_low_pass(apply_high_pass(sig))

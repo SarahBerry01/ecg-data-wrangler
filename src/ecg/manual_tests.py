@@ -2,6 +2,7 @@ import sys
 import matplotlib.pyplot as plt
 from utils import get_signal
 from filters import apply_low_pass, apply_high_pass
+from segment import get_squared_double_difference, get_peaks
 
 
 def test_filtering():
@@ -19,6 +20,24 @@ def test_filtering():
     ax[0].plot()
     ax[1].plot(low_pass[:10000])
     ax[2].plot(high_pass[:10000])
+    plt.show()
+
+
+def test_get_squared_double_difference():
+    signal = get_signal(100, 0, 1000)
+    sdd = get_squared_double_difference(signal)
+    plt.plot(signal)
+    plt.plot(sdd)
+    plt.show()
+
+
+def test_peak_finding():
+    signal = get_signal(102, 0, 5000)
+    sdd = get_squared_double_difference(signal)
+    peaks = get_peaks(sdd)
+    plt.plot(signal)
+    for peak in peaks:
+        plt.axvline(peak, color="r", linestyle="dotted", alpha=0.5)
     plt.show()
 
 
