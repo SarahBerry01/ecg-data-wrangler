@@ -2,6 +2,7 @@ from utils import get_all_signal_ids, get_signal, get_annotations
 from filters import apply_filters
 from segment import segment_signal_workflow
 from data_writer import balance_dataset_for_2_class, arff_dump
+from data_writer import train_test_split
 
 
 def main():
@@ -19,7 +20,9 @@ def main():
         all_segments += (segments)
         all_annotations += (segment_annotations)
     dataset = balance_dataset_for_2_class(all_segments, all_annotations)
-    arff_dump(dataset, "output/1.arff", "0,1")
+    test, train = train_test_split(dataset)
+    arff_dump(test, "output/test_binary.arff", "0,1")
+    arff_dump(train, "output/train_binary.arff", "0,1")
 
 
 main()

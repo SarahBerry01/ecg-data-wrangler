@@ -56,7 +56,7 @@ def get_peak_annotation(peaks, annotations):
     return filtered_peaks, filtered_annotations
 
 
-def segment_signal(signal: list[float], peaks: list[int], annotations: list[str]) -> list[list[float]]:
+def segment_signal(signal, peaks, annotations) -> list[list[float]]:
     """split signal into single cycles
 
     Args:

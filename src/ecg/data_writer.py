@@ -1,7 +1,6 @@
 from random import shuffle
 import numpy as np
 import pandas as pd
-import csv
 
 
 def balance_dataset_for_2_class(segments, annotations):
@@ -19,6 +18,11 @@ def balance_dataset_for_2_class(segments, annotations):
     return dataset
 
 
+def train_test_split(data, test_percentage=0.2):
+    train_i = int(len(data) * (1-test_percentage))
+    return data[:train_i], data[train_i:]
+
+
 def arff_dump(data, file_path, class_options):
     columns = [str(i) for i in range(270)] + ["class"]
     df = pd.DataFrame(data, columns=columns)
@@ -28,4 +32,4 @@ def arff_dump(data, file_path, class_options):
         270)] + ["@attribute class {"+class_options+"}", "@data"]
     with open(file_path, "w") as fp:
         fp.writelines('\n'.join(preamble)+"\n")
-    df.to_csv(file_path, header=False, mode='a')
+    df.to_csv(file_path, header=False, index=False, mode='a')
