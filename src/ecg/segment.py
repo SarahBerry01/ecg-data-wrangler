@@ -50,7 +50,7 @@ def get_peak_annotation(peaks, annotations):
     for peak in peaks:
         annotation_symbols = zip(annotations.sample, annotations.symbol)
         for sample, symbol in annotation_symbols:
-            if abs(sample - peak) < 20 and symbol in beat_anno:
+            if abs(sample - peak) < 35 and symbol in beat_anno:
                 filtered_peaks.append(peak)
                 filtered_annotations.append(symbol)
     return filtered_peaks, filtered_annotations

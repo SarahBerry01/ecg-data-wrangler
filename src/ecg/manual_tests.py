@@ -1,7 +1,7 @@
 import sys
 import matplotlib.pyplot as plt
-from utils import get_signal, get_annotations
-from filters import apply_low_pass, apply_high_pass
+from utils import get_signal, get_annotations, get_all_signal_ids
+from filters import apply_low_pass, apply_high_pass, apply_filters
 from segment import get_squared_double_difference, get_peaks, get_peak_annotation, segment_signal_workflow
 
 
@@ -44,13 +44,13 @@ def test_peak_finding():
 def test_get_peak_annotation():
     signal = get_signal(100, 0, 5000)
     annotations = get_annotations(100, 0, 5000)
-    sdd = get_squared_double_difference(signal)
+    filtered_signal = apply_filters(signal)
+    sdd = get_squared_double_difference(filtered_signal)
     peaks = get_peaks(sdd)
     peaks, annotations = get_peak_annotation(peaks, annotations)
-    plt.plot(signal)
-    y = max(signal)
+    plt.plot(filtered_signal)
+    y = max(filtered_signal)
     for peak, annotation in zip(peaks, annotations):
-        print(peak)
         plt.annotate(annotation, (peak, y))
     plt.show()
 
@@ -58,12 +58,30 @@ def test_get_peak_annotation():
 def test_segment_signal():
     signal = get_signal(102)
     annotations = get_annotations(102)
-    segments, annotations = segment_signal_workflow(signal, annotations)
+    filtered_signal = apply_filters(signal)
+    segments, annotations = segment_signal_workflow(
+        filtered_signal, annotations)
     for seg, anno in zip(segments, annotations):
         if anno != 'N':
             plt.plot(seg)
             plt.title(anno)
             plt.show()
+
+def test_filtering_effect_on_segmenting():
+    beat_anno = ['N', 'L', 'R', 'B', 'A', 'a', 'J', 'S', 'V',
+                 'r', 'F', 'e', 'j', 'n', 'E', '/', 'f', 'Q', '?']
+    signal = get_signal(102)
+    annotations = get_annotations(102)
+    filtered_signal = apply_filters(signal)
+    filtered_segments, filtered_annotations = segment_signal_workflow(
+        filtered_signal, annotations)
+    unfiltered_segments, unfiltered_annotations = segment_signal_workflow(
+        signal, annotations)
+    expected_segments = len([s for s in annotations.symbol if s in beat_anno])
+    print(f"{expected_segments=}")
+    print(f"{len(filtered_segments)=}")
+    print(f"{len(unfiltered_segments)=}")
+
 
 
 if __name__ == '__main__':
