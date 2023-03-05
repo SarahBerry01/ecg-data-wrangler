@@ -18,6 +18,13 @@ def balance_dataset_for_2_class(segments, annotations):
     return dataset
 
 
+def balance_dataset_arrythmias(segments, annotations):
+    ab_class = [np.append(s, a)
+                for s, a in zip(segments, annotations) if a != 'N']
+    shuffle(ab_class)
+    return ab_class
+
+
 def train_test_split(data, test_percentage=0.2):
     train_i = int(len(data) * (1-test_percentage))
     return data[:train_i], data[train_i:]

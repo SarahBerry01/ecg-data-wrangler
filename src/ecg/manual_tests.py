@@ -1,6 +1,7 @@
+import numpy as np
 import sys
 import matplotlib.pyplot as plt
-from utils import get_signal, get_annotations
+from utils import get_signal, get_annotations, get_all_signal_ids
 from filters import apply_low_pass, apply_high_pass, apply_filters
 from segment import get_squared_double_difference, get_peaks
 from segment import get_peak_annotation, segment_signal_workflow
@@ -83,6 +84,31 @@ def test_filtering_effect_on_segmenting():
     print(f"{expected_segments=}")
     print(f"{len(filtered_segments)=}")
     print(f"{len(unfiltered_segments)=}")
+
+
+def get_class_distribution():
+    beat_anno = ['N', 'L', 'R', 'B', 'A', 'a', 'J', 'S', 'V',
+                 'r', 'F', 'e', 'j', 'n', 'E', '/', 'f', 'Q', '?']
+    print("== PREPARING SEGMENTS ==")
+    ids = get_all_signal_ids()
+    all_annotations = []
+    unfilter_annos = []
+    for i, sample_id in enumerate(ids):
+        print(int(i*100/len(ids)), "%")
+        signal = get_signal(sample_id)
+        annotations = get_annotations(sample_id)
+        unfilter_annos += annotations.symbol
+        filtered_signal = apply_filters(signal)
+        segments, segment_annotations = segment_signal_workflow(
+            filtered_signal, annotations)
+        all_annotations += (segment_annotations)
+    unfilter_annos = [x for x in unfilter_annos if x in beat_anno]
+    plt.figure(figsize=(15, 15))
+    values, bins, bars = plt.hist(unfilter_annos, bins=np.arange(15)-0.5)
+    plt.bar_label(bars, fontsize=8, padding=15)
+    values, bins, bars = plt.hist(all_annotations, bins, alpha=0.5)
+    plt.bar_label(bars, fontsize=8)
+    plt.show()
 
 
 if __name__ == '__main__':
