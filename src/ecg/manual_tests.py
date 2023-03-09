@@ -10,38 +10,50 @@ from segment import get_peak_annotation, segment_signal_workflow
 
 
 def test_filtering():
-    signal, _ = get_signal(102)
-    low_pass = apply_low_pass(signal)
-    high_pass = apply_high_pass(signal)
-    figure, ax = plt.subplots(3)
-    ax[0].set_title("original")
-    ax[1].set_title("low pass")
-    ax[2].set_title("high pass")
-    ax[0].axhline(y=0, color='black', linestyle='dotted', alpha=0.5)
-    ax[1].axhline(y=0, color='black', linestyle='dotted', alpha=0.5)
-    ax[2].axhline(y=0, color='black', linestyle='dotted', alpha=0.5)
-    ax[0].plot(signal[:10000])
-    ax[0].plot()
-    ax[1].plot(low_pass[:10000])
-    ax[2].plot(high_pass[:10000])
-    plt.show()
+    ids = get_all_signal_ids()
+    for sample_id in ids:
+        signal, _ = get_signal(sample_id)
+        low_pass = apply_low_pass(signal)
+        high_pass = apply_high_pass(low_pass)
+        figure, ax = plt.subplots(3)
+        figure.set_size_inches(10, 5)
+        ax[0].set_title("original")
+        ax[1].set_title("low pass")
+        ax[2].set_title("low pass and high pass")
+        ax[0].axhline(y=0, color='black', linestyle='dotted', alpha=0.5)
+        ax[1].axhline(y=0, color='black', linestyle='dotted', alpha=0.5)
+        ax[2].axhline(y=0, color='black', linestyle='dotted', alpha=0.5)
+        ax[0].plot(signal[:10000])
+        ax[1].plot(low_pass[:10000])
+        ax[2].plot(high_pass[:10000])
+        plt.tight_layout()
+        plt.savefig('plots/filtering/' + str(sample_id))
+        plt.close()
 
+def test_baseline_wander_removal():
+    signal, _ = get_signal(234)
+    low_pass = apply_low_pass(signal)
+    high_pass = apply_high_pass(low_pass)
+    figure, ax = plt.subplots(2)
+    ax[0].set_title("id = 234")
+    ax[1].set_title("low pass and high pass")
+    ax[0].axhline(y=0, color='black', alpha=0.2)
+    ax[1].axhline(y=0, color='black', alpha=0.2)
+    ax[0].plot(signal[:6000], linewidth=0.6)
+    ax[1].plot(high_pass[:6000], linewidth=0.6)
+    x = list(range(6000))
+    p = np.poly1d(np.polyfit(x, signal[:6000], 3))
+    p_filtered = np.poly1d(np.polyfit(x, high_pass[:6000], 3))
+    ax[0].plot(p(x))
+    ax[1].plot(p_filtered(x))
+    plt.tight_layout()
+    plt.show()
 
 def test_get_squared_double_difference():
     signal, _ = get_signal(100, 0, 1000)
     sdd = get_squared_double_difference(signal)
     plt.plot(signal)
     plt.plot(sdd)
-    plt.show()
-
-
-def test_peak_finding():
-    signal, _ = get_signal(102, 0, 5000)
-    sdd = get_squared_double_difference(signal)
-    peaks = get_peaks(sdd)
-    plt.plot(signal)
-    for peak in peaks:
-        plt.axvline(peak, color="r", linestyle="dotted", alpha=0.5)
     plt.show()
 
 
@@ -129,6 +141,20 @@ def save_arrythmia_plots():
                     plt.close()
                     distribution[anno] += 1
                     count = count + 1
+
+def test_sdd():    
+    signal, _ = get_signal(102, 0, 5000)
+    filtered_signal = apply_filters(signal)
+    sdd = get_squared_double_difference(filtered_signal)
+    peaks = get_peaks(sdd)
+    figure, ax = plt.subplots(2)
+    ax[0].plot(filtered_signal)
+    for peak in peaks:
+        ax[0].axvline(peak, color="orange", linestyle="dashed", alpha=0.8)
+    ax[1].plot(sdd)
+    plt.show()
+    plt.show()
+
 
 
 if __name__ == '__main__':
