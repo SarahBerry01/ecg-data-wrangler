@@ -31,7 +31,7 @@ def get_record(signal_id: int, start: int = 0, end: int = None) -> list[float]:
     return record
 
 
-def get_signal(signal_id: int, start: int = 0, end: int = None) -> list[float]:
+def get_signal(signal_id: int, start: int = 0, end: int = None):
     """ gets p signal of a singular signal with a given range
 
     Args:
@@ -43,8 +43,9 @@ def get_signal(signal_id: int, start: int = 0, end: int = None) -> list[float]:
         list[float]: signal for the signal
     """
     record = get_record(signal_id, start, end)
-    signal = [signal[0] for signal in record.p_signal]
-    return signal
+    channel_0 = [signal[0] for signal in record.p_signal]
+    channel_1 = [signal[0] for signal in record.p_signal]
+    return channel_0, channel_1
 
 
 def get_annotations(signal_id: int, start: int = 0, end: int = None):
