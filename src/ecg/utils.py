@@ -44,7 +44,7 @@ def get_signal(signal_id: int, start: int = 0, end: int = None):
     """
     record = get_record(signal_id, start, end)
     channel_0 = [signal[0] for signal in record.p_signal]
-    channel_1 = [signal[0] for signal in record.p_signal]
+    channel_1 = [signal[1] for signal in record.p_signal]
     return channel_0, channel_1
 
 
