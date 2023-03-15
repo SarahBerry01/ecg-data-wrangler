@@ -3,7 +3,7 @@ import csv
 
 
 def save(file, train_acc, test_acc):
-    row = [file]
+    row = []
     with open(file, "r") as fp:
         for line in fp:
             if len(line)> 4:
@@ -12,6 +12,7 @@ def save(file, train_acc, test_acc):
     row += [train_acc, test_acc]
     with open("tested_confs.csv", "a", newline='') as fp:
         writer = csv.writer(fp)
+        writer.writerow(["\n"])
         writer.writerow(row)
 
 
