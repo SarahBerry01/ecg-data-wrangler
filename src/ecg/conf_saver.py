@@ -12,7 +12,6 @@ def save(file, train_acc, test_acc):
     row += [train_acc, test_acc]
     with open("tested_confs.csv", "a", newline='') as fp:
         writer = csv.writer(fp)
-        writer.writerow(["\n"])
         writer.writerow(row)
 
 
