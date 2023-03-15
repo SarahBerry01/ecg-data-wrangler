@@ -2,6 +2,7 @@ import numpy as np
 import sys
 import matplotlib.pyplot as plt
 from collections import defaultdict
+from random import shuffle
 
 from utils import get_signal, get_annotations, get_all_signal_ids
 from filters import apply_low_pass, apply_high_pass, apply_filters
@@ -30,6 +31,7 @@ def test_filtering():
         plt.savefig('plots/filtering/' + str(sample_id))
         plt.close()
 
+
 def test_baseline_wander_removal():
     signal, _ = get_signal(234)
     low_pass = apply_low_pass(signal)
@@ -48,6 +50,7 @@ def test_baseline_wander_removal():
     ax[1].plot(p_filtered(x))
     plt.tight_layout()
     plt.show()
+
 
 def test_get_squared_double_difference():
     signal, _ = get_signal(100, 0, 1000)
@@ -100,7 +103,7 @@ def test_filtering_effect_on_segmenting():
     print(f"{len(unfiltered_segments)=}")
 
 
-def get_class_distribution():
+def get_class_distribution_post_process():
     print("== PREPARING SEGMENTS ==")
     ids = get_all_signal_ids()
     all_annotations = []
@@ -113,36 +116,57 @@ def get_class_distribution():
             segments, segment_annotations = segment_signal_workflow(
                 filtered_signal, annotations)
             all_annotations += (segment_annotations)
-    plt.figure(figsize=(15, 15))
     values, bins, bars = plt.hist(
-        all_annotations, bins=np.arange(15)-0.5, alpha=0.5)
+        sorted(all_annotations), bins=np.arange(15)-0.5, alpha=0.5)
+    plt.bar_label(bars, fontsize=8)
+    plt.show()
+
+
+def get_class_distribution():
+    beat_anno = ['N', 'L', 'R', 'B', 'A', 'a', 'J', 'S', 'V',
+                 'r', 'F', 'e', 'j', 'n', 'E', '/', 'f', 'Q', '?']
+    ids = get_all_signal_ids()
+    all_annotations = []
+    for i, sample_id in enumerate(ids):
+        print(int(i*100/len(ids)), "%")
+        annotations = get_annotations(sample_id).symbol
+        annotations = [a for a in annotations if a in beat_anno]
+        all_annotations += (annotations)
+        all_annotations += (annotations)
+    values, bins, bars = plt.hist(
+        sorted(all_annotations), bins=np.arange(15)-0.5, alpha=0.5)
     plt.bar_label(bars, fontsize=8)
     plt.show()
 
 
 def save_arrythmia_plots():
+    dist = defaultdict(int)
     print("== PREPARING SEGMENTS ==")
-    ids = get_all_signal_ids()[:5]
-    count = 0
+    ids = get_all_signal_ids()
+    all_segments = []
+    all_annotations = []
     for i, sample_id in enumerate(ids):
         print(int(i*100/len(ids)), "%")
         signals = get_signal(sample_id)
         annotations = get_annotations(sample_id)
-        for channel, signal in enumerate(signals):
-            distribution = defaultdict(int)
+        for signal in signals:
             filtered_signal = apply_filters(signal)
             segments, segment_annotations = segment_signal_workflow(
                 filtered_signal, annotations)
-            for segment, anno in zip(segments, segment_annotations):
-                if distribution[anno] == 0:
-                    plt.plot(segment)
-                    plt.title(str(sample_id) + " " + str(channel) + " " + anno)
-                    plt.savefig('plots/' + str(count))
-                    plt.close()
-                    distribution[anno] += 1
-                    count = count + 1
+            all_segments += (segments)
+            all_annotations += (segment_annotations)
+    s = shuffle(zip(all_segments, all_annotations))
+    for seg, anno in s:
+        if dist[anno] < 2:
+            plt.plot(seg)
+            plt.title(anno)
+            plt.savefig('plots/examples/' + str(ord(anno)) + str(dist[anno]))
+            plt.close()
+            dist[anno] += 1
+    print(dist)
 
-def test_sdd():    
+
+def test_sdd():
     signal, _ = get_signal(102, 0, 5000)
     filtered_signal = apply_filters(signal)
     sdd = get_squared_double_difference(filtered_signal)
@@ -154,7 +178,6 @@ def test_sdd():
     ax[1].plot(sdd)
     plt.show()
     plt.show()
-
 
 
 if __name__ == '__main__':

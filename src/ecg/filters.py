@@ -19,7 +19,7 @@ def apply_low_pass(sig):
 
 def apply_high_pass(sig):
     order = 3
-    cutoff = 0.08
+    cutoff = 0.05
     fs = 360
     b, a = butter(cutoff, fs, order, "highpass")
     y = scipy.signal.filtfilt(b, a, sig)
