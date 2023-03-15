@@ -1,1 +1,3 @@
 name,crossover operator,default class,fitness function mdl,initialization min classifiers,initialization max classifiers,iterations,mdl initial tl ratio,mdl iteration,mdl weight relax factor,pop size,prob crossover,prob individual mutation,prob one,selection algorithm ,tournament size,windowing ilas,dump evolution,smart init,class wise init,coverage breakpoint,repetitions of rule learning,coverage ratio,kr,num expressed attributes init,hyperrectangle uses list of,prob generalize list,prob specialize list,expected number of attributes,device selected,device memory used,cuda,random seed
+
+1px,major,mdl,30,30,50,0.25,10,0.90,1000,0.8,0.6,0.75,tournamentwor,4,50,stats,init,init,0.01,2,0.90,hyperrect,15,attributes,0.10,0.10,50,0,1.0,enabled,29611896791,0.944,0.931
