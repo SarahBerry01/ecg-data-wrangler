@@ -1,3 +1,39 @@
-name,crossover operator,default class,fitness function mdl,initialization min classifiers,initialization max classifiers,iterations,mdl initial tl ratio,mdl iteration,mdl weight relax factor,pop size,prob crossover,prob individual mutation,prob one,selection algorithm ,tournament size,windowing ilas,dump evolution,smart init,class wise init,coverage breakpoint,repetitions of rule learning,coverage ratio,kr,num expressed attributes init,hyperrectangle uses list of,prob generalize list,prob specialize list,expected number of attributes,device selected,device memory used,cuda,random seed
-
-1px,major,mdl,30,30,50,0.25,10,0.90,1000,0.8,0.6,0.75,tournamentwor,4,50,stats,init,init,0.01,2,0.90,hyperrect,15,attributes,0.10,0.10,50,0,1.0,enabled,29611896791,0.944,0.931
+name,default,ilas_20,ilas_50,cov_break,pop100,minor,pop100_increased_iter,pop100_increased_iter2,tourn_size,tourn_size_extended,tourn_size_extended,,tourn_size
+crossover operator,1px,1px,1px,1px,1px,1px,1px,1px,1px,1px,1px,,1px
+default class,major,major,major,major,major,minor,major,major,major,major,major,,major
+fitness function mdl,mdl,mdl,mdl,mdl,mdl,mdl,mdl,mdl,mdl,mdl,mdl,,mdl
+initialization min classifiers,20,20,20,20,20,20,20,20,20,20,20,,20
+initialization max classifiers,20,20,20,20,20,20,20,20,20,20,20,,20
+iterations,5,5,5,5,5,5,5,5,5,100,100,,5
+mdl initial tl ratio,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,,0.25
+mdl iteration,5,5,5,5,5,5,5,5,5,20,20,,5
+mdl weight relax factor,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,,0.9
+pop size,500,500,500,500,100,100,100,100,100,100,200, ,100
+prob crossover,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,,0.6
+prob individual mutation,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,,0.6
+prob one,0.75,0.75,0.75,0.75,0.75,0.75,0.75,0.75,0.75,0.75,0.75,,0.75
+selection algorithm ,tournamentwor,tournamentwor,tournamentwor,tournamentwor,tournamentwor,tournamentwor,tournamentwor,tournamentwor,tournamentwor,tournamentwor,tournamentwor,,tournamentwor
+tournament size,4,4,4,4,4,4,4,4,2,2,2,,2
+windowing ilas,1,20,50,50,50,50,50,50,50,50,50,,50
+dump evolution,stats,stats,stats,stats,stats,stats,stats,stats,stats,stats,stats,,stats
+smart init,,,,,,,,,,,,,
+class wise init,,,,,,,,,,,,,
+coverage breakpoint,0.01,0.01,0.01,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001,,0.001
+repetitions of rule learning,2,2,2,2,2,2,2,2,2,2,2,,2
+coverage ratio,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,,0.9
+kr,,,,,,,,,,,,,
+num expressed attributes init,15,15,15,15,15,15,15,15,15,15,15,,15
+hyperrectangle uses list of,,,,,,,,,,,,,
+prob generalize list,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,,0.1
+prob specialize list,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,,0.1
+expected number of attributes,10,10,10,10,10,10,10,10,10,10,10,,10
+device selected,0,0,0,0,0,0,0,0,0,0,0,,0
+device memory used,1,1,1,1,1,1,1,1,1,1,1,,1
+cuda,,,,,,,,,,,,,
+random seed,0,0,0,0,0,0,0,0,0,0,0,,0
+file type,binary,binary,binary,binary,binary,binary,binary,binary,binary,binary,binary,,binary
+file name,non_bal,non_bal,non_bal,non_bal,non_bal,non_bal,non_bal,non_bal,non_bal,non_bal,non_bal,,non_bal
+train acc,0.918701,0.909976,0.918253,0.920414,0.909551,0.87637,0.930947,0.9429999,0.937213,0.953064,0.960159,,0.937213
+test acc,0.917642,0.910032,0.91803,0.929155,0.908771,0.87466,0.92867,0.92867,0.933857,0.949272,0.956034,,0.933857
+time,1532,351,300,1127,149,118,342,526,481,1169,2251,,481
+Notes,Non balanced 68 samples,Non balanced 68 samples,Non balanced 68 samples,,,,,,,,,MM1:M39,
